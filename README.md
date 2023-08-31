@@ -20,7 +20,7 @@ This is a workaround from this not currently being natively supported in the IDE
 
 - Using the IDE built-in plugin system:
 
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "Idea Statusbar Filename"</kbd> >
+  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "Statusbar Filename"</kbd> >
   <kbd>Install</kbd>
 
 - Manually:
