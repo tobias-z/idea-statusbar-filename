@@ -10,6 +10,12 @@ This is a simple workaround for not currently being able to show the filename in
 
 The plugin [Status Bar File Name & Recent Files](https://github.com/kreiger/intellij-idea-statusbar-filename) no longer works on my machine, so I created a new implementation which the newer IDE's can run.
 
+<!-- Plugin description -->
+Shows the file name of the currently open file in the status bar.
+
+This is a workaround from this not currently being natively supported in the IDE.
+<!-- Plugin description end -->
+
 ## Installation
 
 - Using the IDE built-in plugin system:
