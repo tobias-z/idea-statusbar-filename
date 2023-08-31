@@ -1,18 +1,22 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <id>com.github.tobiasz.ideastatusbarfilename</id>
-    <name>idea-statusbar-filename Template</name>
-    <vendor>tobias-z</vendor>
+    <name>Idea Statusbar Filename</name>
+    <vendor email="cph-tz11@cphbusiness.dk" url="https://github.com/tobias-z/idea-statusbar-filename">tobias-z</vendor>
+
+    <description><![CDATA[
+    Shows the file name of the currently open file in the status bar.
+
+    This is a workaround from this not currently being natively supported in the IDE.
+    ]]></description>
 
     <depends>com.intellij.modules.platform</depends>
 
-    <resource-bundle>messages.MyBundle</resource-bundle>
-
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.tobiasz.ideastatusbarfilename.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
+        <statusBarWidgetFactory
+            implementation="com.github.tobiasz.ideastatusbarfilename.FilenameStatusBarWidgetFactory"
+            order="first"
+            id="Filename"
+        />
     </extensions>
-
-    <applicationListeners>
-        <listener class="com.github.tobiasz.ideastatusbarfilename.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
-    </applicationListeners>
 </idea-plugin>
