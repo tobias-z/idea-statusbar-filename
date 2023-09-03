@@ -1,6 +1,7 @@
 package com.github.tobiasz.ideastatusbarfilename
 
 import com.intellij.openapi.fileEditor.FileEditorManagerEvent
+import com.intellij.openapi.fileEditor.FileEditorManagerListener
 import com.intellij.openapi.project.DumbService
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
@@ -8,10 +9,9 @@ import com.intellij.openapi.vfs.newvfs.VfsPresentationUtil
 import com.intellij.openapi.wm.StatusBar
 import com.intellij.openapi.wm.StatusBarWidget
 import com.intellij.openapi.wm.impl.status.EditorBasedWidget
-import com.intellij.util.SlowOperations
-import javax.annotation.Nonnull
+import com.intellij.util.messages.MessageBusConnection
 
-class FilenameStatusBarWidget(@Nonnull project: Project) : EditorBasedWidget(project), StatusBarWidget.MultipleTextValuesPresentation {
+class FilenameStatusBarWidget(project: Project) : EditorBasedWidget(project), StatusBarWidget.MultipleTextValuesPresentation {
 
     private var filename: String? = null
 
@@ -34,21 +34,24 @@ class FilenameStatusBarWidget(@Nonnull project: Project) : EditorBasedWidget(pro
     // handle the first file opened
     override fun install(statusBar: StatusBar) {
         super.install(statusBar)
-        DumbService.getInstance(project).runWhenSmart { updateFilename(selectedFile) }
+        DumbService.getInstance(project).runWhenSmart { updateFilename(getSelectedFile()) }
     }
 
     // handle when a user changes to a new file
-    override fun selectionChanged(event: FileEditorManagerEvent) {
-        updateFilename(event.newFile)
+    override fun registerCustomListeners(connection: MessageBusConnection) {
+        connection.subscribe(FileEditorManagerListener.FILE_EDITOR_MANAGER, object : FileEditorManagerListener {
+            override fun selectionChanged(event: FileEditorManagerEvent) {
+                updateFilename(event.newFile)
+            }
+        })
     }
 
     private fun updateFilename(file: VirtualFile?) {
         if (file == null) {
             return
         }
-
-        filename = SlowOperations.allowSlowOperations<String, RuntimeException> { VfsPresentationUtil.getUniquePresentableNameForUI(project, file) }
-        myStatusBar.updateWidget(ID())
+        filename = VfsPresentationUtil.getUniquePresentableNameForUI(project, file)
+        myStatusBar?.updateWidget(ID())
     }
 
 }
